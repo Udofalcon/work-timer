@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <label for='totalHours'>Total Hours</label>
+    <input id='totalHours' name='totalHours' value='8' />
+    <dl>
+      <dt id='dt0'>
+        <input id='start0' />
+      </dt>
+      <dd id='dd0'>
+        <p id='end0'></p>
+        <p id='remaining0'></p>
+      </dd>
+    </dl>
+    <script>
+      var timeBlocks = [
+        {
+          start: {
+            elem: document.getElementById('start0'),
+            time: new Date()
+          },
+          end: {
+            elem: document.getElementsById('end0')
+          },
+          remaining: {
+            elem: document.getElementsById('remaining0'),
+            time: parseFloat(document.getElementById('totalHours').getAttribute('hours')) * 60 * 60
+          }
+        }
+      ];
+      
+      timeBlocks[0].start.elem.setAttribute('value', timeBlocks[0].start.time);
+      timeBlocks[0].end.time = (new Date(timeBlocks[0].start.time));
+      timeBlocks[0].end.time.setSeconds(timeBlocks[0].end.time.getSeconds() + timeBlocks[0].remaining.time);
+      timeBlocks[0].end.elem.setAttribute('value', timeBlocks[0].end.time);
+      updateRemaining();
+      
+      function updateRemaining() {
+        var index = timeBlocks.length - 1;
+        var seconds = Math.floor(timeBlocks[index].end.time.getTime() / 1000) - Math.floor(Date.now() / 1000);
+        var minutes = 0;
+        var hours = 0;
+        var text = '';
+        
+        while (seconds >= 60) {
+          seconds -= 60;
+          minutes++;
+        }
+
+        while (minutes >= 60) {
+          minutes -= 60;
+          hours++;
+        }
+
+        text = (hours > 0 || minutes > 0 || seconds > 0 ? '-' : 'Done') +
+          (hours > 0 ? hours.toString() + ':' : '') +
+          (hours > 0 || minutes > 0 ? (minutes > 9 ? '' : '0') + minutes.toString() + ':' : '') +
+          (hours > 0 || minutes > 0 || seconds > 0 ? (seconds > 9 ? '' : '0') + seconds.toString() : '');
+        
+        document.getElementById('remaining' + index).innerText = text;
+        
+        setTimeout(updateRemaining, 0);
+      }
+    </script>
+  </body>
+</html>
