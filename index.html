@@ -36,11 +36,17 @@
       updateRemaining();
       
       function updateRemaining() {
-        var index = timeBlocks.length - 1;
-        var seconds = Math.floor(timeBlocks[index].end.time.getTime() / 1000) - Math.floor(Date.now() / 1000);
+        var index = 0;
+        var seconds = parseFloat(document.getElementById('totalHours').getAttribute('value')) * 60 * 60;
         var minutes = 0;
         var hours = 0;
         var text = '';
+        
+        for ( ; index < timeBlocks.length - 1; index++) {
+          seconds -= Math.floor(timeBlocks[index].end.time.getTime() / 1000) - Math.floor(timeBlocks[index].start.time.getTime() / 1000);
+        }
+        
+        seconds -= Math.floor(Date.now() / 1000) - Math.floor(timeBlocks[index].start.time.getTime() / 1000);
         
         while (seconds >= 60) {
           seconds -= 60;
