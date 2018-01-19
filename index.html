@@ -24,13 +24,13 @@
           },
           remaining: {
             elem: document.getElementById('remaining0'),
-            time: parseFloat(document.getElementById('totalHours').getAttribute('hours')) * 60 * 60
+            time: parseFloat(document.getElementById('totalHours').getAttribute('value')) * 60 * 60
           }
         }
       ];
       
       timeBlocks[0].start.elem.setAttribute('value', timeBlocks[0].start.time);
-      timeBlocks[0].end.time = (new Date(timeBlocks[0].start.time));
+      timeBlocks[0].end.time = new Date(timeBlocks[0].start.time.getTime());
       timeBlocks[0].end.time.setSeconds(timeBlocks[0].end.time.getSeconds() + timeBlocks[0].remaining.time);
       timeBlocks[0].end.elem.setAttribute('value', timeBlocks[0].end.time);
       updateRemaining();
